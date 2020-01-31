@@ -2,7 +2,6 @@
 
 package geneticDecryption;
 
-
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.AnalyzerWrapper;
 import org.apache.lucene.analysis.TokenStream;
@@ -10,28 +9,28 @@ import org.apache.lucene.analysis.en.PorterStemFilter;
 
 public class StemmerAnalyzer extends AnalyzerWrapper {
 
-    private Analyzer baseAnalyzer;
+	private Analyzer baseAnalyzer;
 
-    StemmerAnalyzer(Analyzer baseAnalyzer) {
-        super(baseAnalyzer.getReuseStrategy());
-        this.baseAnalyzer = baseAnalyzer;
-    }
+	StemmerAnalyzer(Analyzer baseAnalyzer) {
+		super(baseAnalyzer.getReuseStrategy());
+		this.baseAnalyzer = baseAnalyzer;
+	}
 
-    @Override
-    public void close() {
-        baseAnalyzer.close();
-        super.close();
-    }
+	@Override
+	public void close() {
+		baseAnalyzer.close();
+		super.close();
+	}
 
-    @Override
-    protected Analyzer getWrappedAnalyzer(String fieldName) {
-        return baseAnalyzer;
-    }
+	@Override
+	protected Analyzer getWrappedAnalyzer(String fieldName) {
+		return baseAnalyzer;
+	}
 
-    @Override
-    protected TokenStreamComponents wrapComponents(String fieldName, TokenStreamComponents components) {
-        TokenStream tS = components.getTokenStream();
-        PorterStemFilter porterStem = new PorterStemFilter(tS);
-        return new TokenStreamComponents(components.getTokenizer(), porterStem);
-    }
+	@Override
+	protected TokenStreamComponents wrapComponents(String fieldName, TokenStreamComponents components) {
+		TokenStream tS = components.getTokenStream();
+		PorterStemFilter porterStem = new PorterStemFilter(tS);
+		return new TokenStreamComponents(components.getTokenizer(), porterStem);
+	}
 }
